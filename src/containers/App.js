@@ -6,6 +6,10 @@ import CockPit from '../components/Cockpit/Cockpit';
 import Aux from '../hoc/Auxiliary';
 import withClass from '../hoc/withClass';
 
+export const AuthContext = React.createContext(false);
+
+//PureComponent--> Este tipo de componentes están optimizados para una mayor performance de renderizado, 
+//ya que solo cambian si detectan un cambio en sus props y estos son distintos a los valores anteriores.
 class App extends PureComponent {
 
     constructor( props ) {
@@ -19,7 +23,8 @@ class App extends PureComponent {
       ],
       otherState: 'some other value',
       showPersons: false,
-      toggleClicked: 0
+      toggleClicked: 0,
+      authenticated: false
     };
   }
 
@@ -93,6 +98,10 @@ class App extends PureComponent {
     } );
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   render() {
     
     console.log('[App.js] Inside Render');
@@ -102,7 +111,7 @@ class App extends PureComponent {
       personas = <Persons 
             persons = {this.state.persons } 
             clicked = { this.deletePersonHandler}
-            changed ={this.nameChangedHandler}
+            changed ={this.nameChangedHandler}                      
           />          
     }
 
@@ -115,8 +124,15 @@ class App extends PureComponent {
           showPersons={this.state.showPersons}
           persons = {this.state.persons}
           clicked = {this.togglePersonsHandler}
-        />                   
-        { personas }
+          login= {this.loginHandler}
+        />
+        {/* We are providing this context to all child components in there, no matter
+            on wich level they are
+        */}
+        <AuthContext.Provider value={this.state.authenticated}>
+          { personas }
+        </AuthContext.Provider>           
+        
       </Aux>    
     );
 

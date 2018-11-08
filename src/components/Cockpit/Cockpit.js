@@ -15,12 +15,12 @@ const cockpit = (props) => {
 
     if(props.persons.length <=2 ) {
       assignedClasses.push(classes.red);//classes=['red']
-      console.log(assignedClasses);
+      //console.log(assignedClasses);
     }
 
     if(props.persons.length <=1 ) {
       assignedClasses.push(classes.bold);//classes=['red', 'bold']
-      console.log(assignedClasses);
+      //console.log(assignedClasses);
     }
 
     return (
@@ -31,6 +31,7 @@ const cockpit = (props) => {
                 className={btnClass} 
                 onClick={props.clicked}>Toogle Persons
             </button>     
+            <button onClick={ props.login }>Log in</button>
         </Aux>
     );
 };

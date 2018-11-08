@@ -10,15 +10,21 @@ import React, { Component } from 'react';
 // }
 
 const withClass = (WrappedComponent, className) => {
-    return class extends Component { 
+    const WithClass = class extends Component { 
      render() {
          return (
             <div className={className}>
-                <WrappedComponent {...this.props} />
+                <WrappedComponent ref={ this.props.forwardedRef } {...this.props} />
             </div>
          )
      }
     }
+
+    //It works like a tunnel to allow communication between Persons and Person component avoiding
+    //to pass on the HOC withClass
+    return React.forwardRef((props, ref) => {
+        return <WithClass {...props} forwardedRef={ref} />
+    });
 }
 
 export default withClass;
